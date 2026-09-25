@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:docprocessing;MODE=PostgreSQL;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: sa
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.H2Dialect
+
+app:
+  storage:
+    upload-dir: ./build-test-uploads
+  processing:
+    max-attempts: 3
+    backoff-initial-ms: 1
+    backoff-multiplier: 1.0
+    backoff-max-ms: 1
+    worker-threads: 1
+    lock-ttl-seconds: 30
+    queue-poll-timeout-seconds: 1
+    stale-processing-threshold-seconds: 120
+    recovery-interval-ms: 3600000

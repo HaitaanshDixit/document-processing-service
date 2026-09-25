@@ -1,0 +1,9 @@
+@"
+target/
+.idea/
+*.iml
+.vscode/
+uploads/
+*.log
+.DS_Store
+"@ | Set-Content -Path .gitignore -Encoding utf8
