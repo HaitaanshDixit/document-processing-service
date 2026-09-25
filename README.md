@@ -1,16 +1,14 @@
-# Document Processing Service — Backend
+# Document Processing Service (Backend)
 
-Spring Boot service implementing the SuretySeven SDE-1 take-home assignment:
+Spring Boot service :
 async document upload, mock extraction, validation, retries, duplicate
 detection, processing history, search/filtering and observability.
-
-Frontend will be added separately under `/frontend` once the backend is verified.
 
 ## Stack
 
 | Concern | Choice | Why |
 |---|---|---|
-| Language / framework | Java 21, Spring Boot 3.3 | Team's chosen stack, mature ecosystem |
+| Language / framework | Java 21, Spring Boot 3.3 | mature ecosystem |
 | Persistence | PostgreSQL | Durable, relational, easy to query/filter/paginate |
 | Queue + coordination | Redis | Free, in-memory, gives us a work queue (`LPUSH`/`BRPOP`), duplicate-detection (`SETNX`), and a distributed lock in one dependency |
 | Retry | Spring Retry (`RetryTemplate`) | Declarative backoff/retry policy instead of hand-rolled loops |
@@ -28,7 +26,7 @@ Everything used (Postgres, Redis, Spring Boot, Spring Retry) is free and open so
    ```bash
    mvn spring-boot:run
    ```
-3. The API is available at `http://localhost:8080`.
+3. The API is available at `http://localhost:8092`.
 
 Uploaded files are stored under `./uploads` (configurable via `app.storage.upload-dir`).
 
@@ -39,7 +37,7 @@ Fields: `file`, `documentType`, `metadata` (optional string).
 ```json
 { "documentId": "DOC-AB12CD34", "status": "UPLOADED", "duplicate": false }
 ```
-If the same file content was uploaded before, `duplicate: true` is returned with the **existing** document's id — no new record or processing job is created.
+If the same file content was uploaded before, `duplicate: true` is returned with the **existing** document's id : no new record or processing job is created.
 
 ### `GET /documents/{documentId}`
 ```json
@@ -109,9 +107,5 @@ Every processing log line is tagged with `documentId` via SLF4J's MDC
 (`[documentId=DOC-...]`). Combined with the persisted `document_history`
 table (status, reason, timestamp per attempt), answering "why did DOC-12345
 fail" only requires `GET /documents/{id}/history` or grepping logs for that
-id — no document content or extracted business data is ever logged.
+id : no document content or extracted business data is ever logged.
 
-## Engineering questions
-
-See `/docs/ENGINEERING_QUESTIONS.md` (added once the full assignment,
-including frontend, is complete).
