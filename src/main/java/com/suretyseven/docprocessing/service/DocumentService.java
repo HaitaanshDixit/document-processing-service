@@ -1,10 +1,6 @@
 package com.suretyseven.docprocessing.service;
 
-import com.suretyseven.docprocessing.dto.DocumentDetailResponse;
-import com.suretyseven.docprocessing.dto.DocumentSummaryDto;
-import com.suretyseven.docprocessing.dto.HistoryEntryDto;
-import com.suretyseven.docprocessing.dto.PagedResponse;
-import com.suretyseven.docprocessing.dto.UploadResponse;
+import com.suretyseven.docprocessing.dto.*;
 import com.suretyseven.docprocessing.entity.DocumentStatus;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,4 +15,6 @@ public interface DocumentService {
     List<HistoryEntryDto> getHistory(String documentId);
 
     PagedResponse<DocumentSummaryDto> listDocuments(DocumentStatus status, String documentType, int page, int size);
+
+    DocumentStatsResponse getStats();
 }
