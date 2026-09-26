@@ -14,4 +14,6 @@ public interface DocumentRepository extends JpaRepository<Document, String>, Jpa
     Optional<Document> findByFileHash(String fileHash);
 
     List<Document> findByStatusAndUpdatedAtBefore(DocumentStatus status, Instant updatedAtBefore);
+
+    long countByStatus(DocumentStatus status);
 }
