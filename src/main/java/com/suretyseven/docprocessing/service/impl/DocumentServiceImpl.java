@@ -1,11 +1,6 @@
 package com.suretyseven.docprocessing.service.impl;
 
-import com.suretyseven.docprocessing.dto.DocumentDetailResponse;
-import com.suretyseven.docprocessing.dto.DocumentSummaryDto;
-import com.suretyseven.docprocessing.dto.ExtractedResultDto;
-import com.suretyseven.docprocessing.dto.HistoryEntryDto;
-import com.suretyseven.docprocessing.dto.PagedResponse;
-import com.suretyseven.docprocessing.dto.UploadResponse;
+import com.suretyseven.docprocessing.dto.*;
 import com.suretyseven.docprocessing.entity.Document;
 import com.suretyseven.docprocessing.entity.DocumentHistoryEntry;
 import com.suretyseven.docprocessing.entity.DocumentStatus;
@@ -130,6 +125,23 @@ public class DocumentServiceImpl implements DocumentService {
                 .updatedAt(document.getUpdatedAt())
                 .result(resultDto)
                 .validationErrors(validationErrors)
+                .build();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public DocumentStatsResponse getStats() {
+        long uploaded = documentRepository.countByStatus(DocumentStatus.UPLOADED);
+        long processing = documentRepository.countByStatus(DocumentStatus.PROCESSING);
+        long processed = documentRepository.countByStatus(DocumentStatus.PROCESSED);
+        long failed = documentRepository.countByStatus(DocumentStatus.FAILED);
+
+        return DocumentStatsResponse.builder()
+                .uploaded(uploaded)
+                .processing(processing)
+                .processed(processed)
+                .failed(failed)
+                .total(uploaded + processing + processed + failed)
                 .build();
     }
 
