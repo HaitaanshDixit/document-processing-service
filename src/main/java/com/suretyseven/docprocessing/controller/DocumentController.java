@@ -1,10 +1,6 @@
 package com.suretyseven.docprocessing.controller;
 
-import com.suretyseven.docprocessing.dto.DocumentDetailResponse;
-import com.suretyseven.docprocessing.dto.DocumentSummaryDto;
-import com.suretyseven.docprocessing.dto.HistoryEntryDto;
-import com.suretyseven.docprocessing.dto.PagedResponse;
-import com.suretyseven.docprocessing.dto.UploadResponse;
+import com.suretyseven.docprocessing.dto.*;
 import com.suretyseven.docprocessing.entity.DocumentStatus;
 import com.suretyseven.docprocessing.service.DocumentService;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +29,11 @@ public class DocumentController {
         UploadResponse response = documentService.upload(file, documentType, metadata);
         HttpStatus status = response.isDuplicate() ? HttpStatus.OK : HttpStatus.CREATED;
         return ResponseEntity.status(status).body(response);
+    }
+
+    @GetMapping("/documents/stats")
+    public ResponseEntity<DocumentStatsResponse> getStats() {
+        return ResponseEntity.ok(documentService.getStats());
     }
 
     @GetMapping("/documents/{documentId}")
